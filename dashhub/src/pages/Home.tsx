@@ -7,6 +7,8 @@ import "../Dash.css"
 import StoreIcon from '@mui/icons-material/Store';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
 import LocalMallIcon from '@mui/icons-material/LocalMall';
+import BarChart from "../charts/BarChart";
+import CountUp from 'react-countup';
 
 export default function Home() {
     return (
@@ -26,7 +28,7 @@ export default function Home() {
                                                 <CreditCardIcon />
                                             </div>
                                             <Typography gutterBottom variant="h5" component="div" sx={{ color: "#ffffff" }}>
-                                                $500.00
+                                                $<CountUp delay={0.2} end={500.00} duration={0.6} />
                                             </Typography>
                                             <Typography gutterBottom variant="body2" component="div" sx={{ color: "#ccd1d1" }}>
                                                 Total Earning
@@ -39,7 +41,7 @@ export default function Home() {
                                                 <LocalMallIcon />
                                             </div>
                                             <Typography gutterBottom variant="h5" component="div" sx={{ color: "#ffffff" }}>
-                                                $900.00
+                                                $<CountUp delay={0.2} end={900.00} duration={0.6} />
                                             </Typography>
                                             <Typography gutterBottom variant="body2" component="div" sx={{ color: "#ccd1d1" }}>
                                                 Total Orders
@@ -82,7 +84,7 @@ export default function Home() {
                             <Grid item xs={8}>
                                 <Card sx={{ height: 60 + "vh" }}>
                                     <CardContent>
-
+                                        <BarChart />
                                     </CardContent>
                                 </Card>
                             </Grid>

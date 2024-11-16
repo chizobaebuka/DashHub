@@ -1,8 +1,9 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 // import Sidenav from "./sidenav";
 import Home from "./pages/Home";
-import About from "./pages/About";
+import Products from "./pages/Products";
 import Settings from "./pages/Settings";
+import Analytics from "./pages/Analytics";
 
 export default function App() {
   return (
@@ -10,7 +11,8 @@ export default function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Home />}></Route>
-          <Route path="/about"  element={<About />}></Route>
+          <Route path="/products"  element={<Products />}></Route>
+          <Route path="/analytics"  element={<Analytics />}></Route>
           <Route path="/settings"  element={<Settings />}></Route>
         </Routes>
       </BrowserRouter>
