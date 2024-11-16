@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
 import { Paper, Typography, Grid, Button, IconButton, Box } from '@mui/material';
 import { styled } from '@mui/system';
-import { DataGrid, GridColDef, GridValueFormatterParams } from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import axios from 'axios';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import Swal from 'sweetalert2';
+import Swal from 'sweetalert2'; // cSpell:ignore sweetalert
 import AddProduct from './AddProduct';
 
 interface Product {
@@ -33,6 +33,7 @@ const StyledPaper = styled(Paper)(({ theme }) => ({
 const ProductList = () => {
     const [productData, setProductData] = useState<Product[]>([]);
     const [selectedSection, setSelectedSection] = useState<string>('products');
+    const [openAddProduct, setOpenAddProduct] = useState(false); // State to manage AddProduct modal
 
     useEffect(() => {
         fetchProducts();
@@ -48,16 +49,11 @@ const ProductList = () => {
         }
     };
 
-    const handleSectionSelect = (section: string) => {
-        setSelectedSection(section);
-    };
-
     const handleEdit = (id: number) => {
         console.log(`Edit product with ID: ${id}`);
     };
 
     const handleDelete = (id: number) => {
-        console.log(`Delete product with ID: ${id}`);
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -82,12 +78,7 @@ const ProductList = () => {
     };
 
     const deleteApi = async (id: number) => {
-        // eslint-disable-next-line no-useless-catch
-        try {
-            await axios.delete(`http://localhost:3030/products/${id}`);
-        } catch (error) {
-            throw error;
-        }
+        await axios.delete(`http://localhost:3030/products/${id}`);
     };
 
     const columns: GridColDef[] = [
@@ -106,7 +97,7 @@ const ProductList = () => {
             field: 'actions',
             headerName: 'Actions',
             width: 110,
-            renderCell: (params: GridValueFormatterParams) => (
+            renderCell: (params: GridRenderCellParams) => (
                 <Box display="flex" justifyContent="center">
                     <IconButton onClick={() => handleEdit(params.row.id)}>
                         <EditIcon />
@@ -124,13 +115,18 @@ const ProductList = () => {
             <Grid item xs={12}>
                 <StyledPaper
                     elevation={3}
-                    onClick={() => handleSectionSelect('products')}
+                    onClick={() => setSelectedSection('products')}
                     sx={{ backgroundColor: selectedSection === 'products' ? '#f5f5f5' : 'inherit' }}
                 >
                     <Typography variant="h6">Product List ({productData.length})</Typography>
                 </StyledPaper>
-                <Button variant="contained" sx={{ height: "40px", width: "20%" }} color="primary" onClick={() => handleSectionSelect('products')}>
-                    <AddProduct />
+                <Button
+                    variant="contained"
+                    sx={{ height: '40px', width: '20%' }}
+                    color="primary"
+                    onClick={() => setOpenAddProduct(true)}
+                >
+                    Add Product
                 </Button>
                 {selectedSection === 'products' && (
                     <div style={{ height: '400px', width: '100%' }}>
@@ -139,11 +135,18 @@ const ProductList = () => {
                             columns={columns}
                             autoHeight
                             pagination
-                            pageSize={5}
+                            initialState={{
+                                pagination: {
+                                    paginationModel: {
+                                        pageSize: 5,
+                                    },
+                                },
+                            }}
                         />
                     </div>
                 )}
             </Grid>
+            {openAddProduct && <AddProduct onClose={() => setOpenAddProduct(false)} />}
         </Grid>
     );
 };

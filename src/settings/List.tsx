@@ -4,7 +4,7 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import { Card, CardContent, Stack, styled } from '@mui/material';
+import { styled } from '@mui/material';
 import Personal from './Personal';
 import Profile from './Profile';
 
@@ -13,7 +13,6 @@ interface TabPanelProps {
     index: number;
     value: number;
 }
-
 
 interface StyledTabsProps {
     children?: React.ReactNode;
@@ -89,7 +88,7 @@ function a11yProps(index: number) {
 export default function List() {
     const [value, setValue] = React.useState(0);
 
-    const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    const handleChange = (_: React.SyntheticEvent, newValue: number) => {
         setValue(newValue);
     };
 

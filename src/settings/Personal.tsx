@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { TextField, IconButton, InputAdornment, FormControl, InputLabel, OutlinedInput, Button } from '@mui/material';
+import {
+    IconButton,
+    InputAdornment,
+    FormControl,
+    InputLabel,
+    OutlinedInput,
+    Button,
+} from '@mui/material';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 
 export default function ChangePassword() {
@@ -10,15 +17,15 @@ export default function ChangePassword() {
     const [showNewPassword, setShowNewPassword] = useState(false);
     const [showConfirmNewPassword, setShowConfirmNewPassword] = useState(false);
 
-    const handleCurrentPasswordChange = (event) => {
+    const handleCurrentPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setCurrentPassword(event.target.value);
     };
 
-    const handleNewPasswordChange = (event) => {
+    const handleNewPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setNewPassword(event.target.value);
     };
 
-    const handleConfirmNewPasswordChange = (event) => {
+    const handleConfirmNewPasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setConfirmNewPassword(event.target.value);
     };
 
@@ -34,10 +41,14 @@ export default function ChangePassword() {
         setShowConfirmNewPassword(!showConfirmNewPassword);
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         // Perform password change logic here
-        // Ensure new password matches confirm new password, etc.
+        if (newPassword !== confirmNewPassword) {
+            alert("New password and confirm password must match.");
+            return;
+        }
+        console.log('Password changed successfully!');
     };
 
     return (

@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { Box, IconButton, Typography, Modal } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-export default function AddProduct() {
+interface AddProductProps {
+  onClose: () => void; // Prop to handle closing the modal
+}
+
+export default function AddProduct({ onClose }: AddProductProps) {
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
@@ -11,6 +15,7 @@ export default function AddProduct() {
 
   const closeModal = () => {
     setShowModal(false);
+    onClose(); // Notify the parent to handle modal closure
   };
 
   return (
@@ -19,12 +24,15 @@ export default function AddProduct() {
         <Typography variant="h5" align="center">
           Add Product
         </Typography>
-        <IconButton style={{ position: 'absolute', top: '0', right: '0' }} onClick={openModal}>
+        <IconButton
+          style={{ position: 'absolute', top: '0', right: '0' }}
+          onClick={openModal}
+        >
           <CloseIcon />
         </IconButton>
       </Box>
-      
-      {/* Render the AddProductModal component inside the Modal */}
+
+      {/* Modal Component */}
       <Modal
         open={showModal}
         onClose={closeModal}
@@ -44,6 +52,19 @@ export default function AddProduct() {
             p: 4,
           }}
         >
+          <Typography variant="h6" align="center" gutterBottom>
+            Add New Product
+          </Typography>
+          <IconButton
+            style={{ position: 'absolute', top: '10px', right: '10px' }}
+            onClick={closeModal}
+          >
+            <CloseIcon />
+          </IconButton>
+          {/* Add your form or content here */}
+          <Typography variant="body1">
+            This is where the product form will be.
+          </Typography>
         </Box>
       </Modal>
     </>
